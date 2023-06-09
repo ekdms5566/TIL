@@ -7,7 +7,7 @@
 
 <hr />
 
-## Reduce unused JavaScript
+## 📍 Reduce unused JavaScript
 
 <img src="https://user-images.githubusercontent.com/78911818/243170585-52a3fa04-567f-46f2-8fb4-61465ed05ca8.png" width="400px">
 
@@ -33,7 +33,7 @@ Lighthouse 검사를 받으면 performance 부분에서 `Reduce unused JavaScrip
 **2. Unused Code Elimination**  
 **3. Unused Imported Code**
 
-## webpack Code Splitting
+## 📍 webpack Code Splitting
 
 Code Splitting이란 지정된 페이지에 필요한 이외의 javascript는 다운로드하거나 실행하지 않도록 설정하는 것을 말한다. Code Splitting은 번들 코드를 필요에 따라 독립적으로 로드하고 실행할 수 있는 여러 개의 작은 번들로 나누는 프로세스를 의미한다.
 
@@ -43,7 +43,7 @@ Code Splitting이란 지정된 페이지에 필요한 이외의 javascript는 �
 
 만약, cra로 만든 프로젝트라면 웹팩 작업을 cra가 해주기 때문에 해당 작업은 하지 않아도 된다.
 
-## lazy-loading(지연 로딩)
+## 📍 lazy-loading(지연 로딩)
 
 [Route-based code splitting 공식 문서](https://ko.legacy.reactjs.org/docs/code-splitting.html#route-based-code-splitting)
 

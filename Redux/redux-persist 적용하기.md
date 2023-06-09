@@ -6,7 +6,7 @@
 
 <hr />
 
-## redux-persist란?
+## 📍 redux-persist란?
 
 redux-toolkit을 사용하여 store에 저장한 상태를 관리하다 보면 새로고침을 했을 때 상태가 모두 초기화된다. 이러한 경우 redux-persist를 사용하면 해당 문제를 해결할 수 있다.
 
@@ -19,7 +19,7 @@ npm i redux-persist
 yarn add redux-persist
 ```
 
-## redux-persist 적용하기
+## 📍 redux-persist 적용하기
 
 ```js
 // sessionStorage에 store 저장

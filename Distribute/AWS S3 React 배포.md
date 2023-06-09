@@ -12,7 +12,7 @@
 
 프로젝트를 진행하면서 AWS S3로 배포한 과정을 정리한 글이다.
 
-## S3(Simple Storage Service)
+## 📍 S3(Simple Storage Service)
 
 - [AWS S3](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/Welcome.html)는 데이터를 버킷 내의 객체로 저장하는 객체 스토리지(객체로 된 파일을 다루는 저장소) 서비스로 다양한 사용 사례에서 원하는 양의 데이터를 저장하고 보호할 수 있다.
 
@@ -53,7 +53,7 @@ ACL은 IAM보다 먼저 적용되는 액세스 제어 메커니즘이다.
 - S3 자체가 수천 대 이상의 매우 성능이 좋은 웹 서버로 구성되어 있어서 EC2와 EBS로 구축했을 때 처럼 Auto Scaling이나 Load Balancing에 신경쓰지 않아도 된다.
 - 정적 웹 서비스 가능
 
-## **S3로 배포하기**
+## 📍 **S3로 배포하기**
 
 ### **1. IAM 사용자 만들기**
 
