@@ -1,8 +1,8 @@
 # redux-persist 적용하여 새로고침 시에도 store 유지하기
 
 목차  
-[redux-persist란?](#redux-persist란)  
-[redux-persist 적용하기](#redux-persist-적용하기)
+[redux-persist란?](#📍-redux-persist란)  
+[redux-persist 적용하기](#📍-redux-persist-적용하기)
 
 <hr />
 

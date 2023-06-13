@@ -1,8 +1,8 @@
 # AWS S3 React 배포
 
 목차  
-[S3(Simple Storage Service)란?](#s3simple-storage-service)  
-[S3로 React 배포하기](#s3로-배포하기)  
+[S3(Simple Storage Service)란?](#📍-s3simple-storage-service)  
+[S3로 React 배포하기](#📍-s3로-배포하기)  
 [1) IAM 사용자 만들기](#1.-iam-사용자-만들기)  
 [2) S3 버킷 만들기](#2.-s3-버킷-만들기)  
 [3) 웹사이트 호스팅 설정 변경](#3-웹사이트-호스팅-설정을-변경)  

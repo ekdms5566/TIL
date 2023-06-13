@@ -1,10 +1,11 @@
 # AWS EC2에 React 배포하기
 
 목차  
-[AWS EC2(Elastic Compute Cloud)란?](#aws-ec2elastic-compute-cloud란)  
-[EC2 인스턴스 생성하기](#ec2-인스턴스-생성하기)  
-[EC2로 React 프로젝트 배포하기](#ec2로-react-프로젝트-배포하기)  
-[EC2 배포 시, react build 안되는 이유](#ec2-배포-시-react-build-안되는-이유)
+[AWS EC2(Elastic Compute Cloud)란?](#📍-aws-ec2elastic-compute-cloud란)  
+[EC2 인스턴스 생성하기](#📍-ec2-인스턴스-생성하기)  
+[EC2로 React 프로젝트 배포하기](#📍-ec2로-react-프로젝트-배포하기)  
+[express.js로 웹 서버 만들어 배포하기]()
+[EC2 배포 시, react build 안되는 이유](#📍-ec2-배포-시-react-build-안되는-이유)
 
 <hr />
 
@@ -132,6 +133,68 @@ pm2 delete appName
 pm2 describe appName
 ```
 
+## 📍 express.js로 웹 서버 만들어 배포하기
+
+위에서 한 것처럼 설정하는 것도 좋지만 실제 프로덕션 환경에서는 보안 및 성능을 고려하여 웹 서버를 설정하는 것이 좋다고 한다. 그렇기 때문에 이번에는 express.js를 활용하여 웹 서버를 구축하여 배포를 해보고자 한다.
+
+```bash
+npm i express
+```
+
+먼저 express를 설치한 후, 간단한 서버 코드를 작성하면 된다. 서버 코드는 root 경로에 작성하면 된다.
+
+```bash
+# server.js 파일 생성 명령어
+vi server.js
+```
+
+위 명령어를 통해 server.js 파일을 생성하면 바로 server.js 파일 안으로 들어가진다. `i` 키를 통해 INSERT 모드로 변경하고 아래의 코드를 작성해주면 된다.
+
+```js
+// server.js
+const http = require("http");
+const express = require("express");
+const path = require("path");
+
+const app = express(); // express app 생성
+
+const port = 8000; // 사용할 port 번호 정의
+
+app.use(express.static(path.join(__dirname, "build"))); // build 폴더 내 정적 파일 서빙
+
+app.get("/*", (req, res) => {
+  // "/*"를 통해 모든 요청에 대해 라우팅 처리
+  res.set({
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    Pragma: "no-cache",
+    Date: Date.now(),
+  });
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+  // index.html 파일을 클라이언트에 전송
+});
+
+// 웹 서버 생성
+http.createServer(app).listen(port, () => {
+  console.log(`app listening at ${port}`);
+});
+
+// 지정된 포트에서의 클라이언트 요청 수신
+```
+
+해당 코드는 `npm run build` 명령어를 통해 생성된 build 폴더 내 정적 파일을 서빙하는 간단한 웹 서버 구축 코드이다.
+
+이제 `server.js` 파일을 실행하면 된다. 이 때, build가 되어있는 상태여야 한다!!!
+
+위에서 했던 것처럼 pm2를 통해 무중단 배포를 하기 위해 간단하게 아래 명령어를 실행하면 끝!
+
+```bash
+pm2 start server.js
+```
+
+<img src="https://user-images.githubusercontent.com/78911818/244695379-b4bea23d-f772-43d5-8dac-07f27180abfa.png" width='400px'>
+
+`pm2 list`로 확인해보면 아주 잘 돌아가고 있는 것을 확인할 수 있다!
+
 ## 📍 EC2 배포 시, react build 안되는 이유
 
 만약 몇 분이 지나도 빌드가 되지 않는다면...? 나는 `Creating an optimized production build...` 이 문구만 십 몇분을 보고만 있었던...
@@ -188,7 +251,7 @@ sudo rm /mnt/swapfile
 
 <hr />
 
-참고
-[AWS EC2란 무엇인가요?](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/concepts.html)
-[리눅스 chmod 명령 사용 방법](https://bimmermac.com/2789)
+참고  
+[AWS EC2란 무엇인가요?](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/concepts.html)  
+[리눅스 chmod 명령 사용 방법](https://bimmermac.com/2789)  
 [AWS EC2에 웹 프로젝트 배포하기 (React)](https://3d-yeju.tistory.com/63)

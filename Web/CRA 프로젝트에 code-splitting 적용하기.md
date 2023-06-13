@@ -1,9 +1,9 @@
 # CRA 프로젝트에 code-splitting 적용하기
 
 목차  
-[Reduce unused JavaScript](#reduce-unused-javascript)  
-[webpack Code Splitting](#webpack-code-splitting)  
-[lazy-loading(지연 로딩)](#lazy-loading지연-로딩)
+[Reduce unused JavaScript](#📍-reduce-unused-javascript)  
+[webpack Code Splitting](#📍-webpack-code-splitting)  
+[lazy-loading(지연 로딩)](#📍-lazy-loading지연-로딩)
 
 <hr />
 
