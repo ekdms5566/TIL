@@ -10,7 +10,6 @@
 
 - [AWS S3에서 React 배포하기](%08Distribute/AWS%20S3%20React%20%EB%B0%B0%ED%8F%AC.md#aws-s3-react-배포)
 - [AWS EC2에서 React 배포하기](%08Distribute/AWS%20EC2%20React%20%EB%B0%B0%ED%8F%AC.md#aws-ec2-react-배포)
-- [EC2 배포 시, react build 안되는 이유](%08Distribute/AWS%20EC2%20React%20%EB%B0%B0%ED%8F%AC.md#ec2-배포-시-react-build-안되는-이유)
 
 ### 🥭 Redux
 
@@ -19,3 +18,8 @@
 ### ✨ Network
 
 - [proxy 서버](Network/proxy%20%EC%84%9C%EB%B2%84.md#proxy-서버)
+- [CORS(Cross-Origin Resource Sharing)](<Network/CORS(Cross-Origin%20Resource%20Sharing).md#corscross-origin-resource-sharing>)
+
+### 🚨 트러블 슈팅
+
+- [EC2 배포 시, react build 안되는 이유](%08Distribute/AWS%20EC2%20React%20%EB%B0%B0%ED%8F%AC.md#ec2-배포-시-react-build-안되는-이유)
