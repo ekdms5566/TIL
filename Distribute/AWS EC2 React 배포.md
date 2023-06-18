@@ -4,7 +4,6 @@
 [AWS EC2(Elastic Compute Cloud)란?](#📍-aws-ec2elastic-compute-cloud란)  
 [EC2 인스턴스 생성하기](#📍-ec2-인스턴스-생성하기)  
 [EC2로 React 프로젝트 배포하기](#📍-ec2로-react-프로젝트-배포하기)  
-[express.js로 웹 서버 만들어 배포하기]()
 [EC2 배포 시, react build 안되는 이유](#📍-ec2-배포-시-react-build-안되는-이유)
 
 <hr />

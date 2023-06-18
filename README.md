@@ -19,9 +19,11 @@
 
 - [proxy 서버](Network/proxy%20%EC%84%9C%EB%B2%84.md#proxy-서버)
 - [CORS(Cross-Origin Resource Sharing)](<Network/CORS(Cross-Origin%20Resource%20Sharing).md#corscross-origin-resource-sharing>)
+- [OSI 7계층 모델과 TCP/IP 모델](Network/OSI%207%EA%B3%84%EC%B8%B5%20%EB%AA%A8%EB%8D%B8%EA%B3%BC%20TCP-IP%20%EB%AA%A8%EB%8D%B8.md#osi-7계층-모델과-tcpip-모델)
 
 ### 🚨 트러블 슈팅
 
 - [EC2 배포 시, react build 안되는 이유](%08Distribute/AWS%20EC2%20React%20%EB%B0%B0%ED%8F%AC.md#ec2-배포-시-react-build-안되는-이유)
 - [CORS 해결을 위한 proxy 서버 구축](Javascript/CORS%20%ED%95%B4%EA%B2%B0%EC%9D%84%20%EC%9C%84%ED%95%9C%20proxy%20%EC%84%9C%EB%B2%84%20%EA%B5%AC%EC%B6%95.md#cors-해결을-위한-proxy-서버-구축)
+
   - 다른 서비스의 엔드포인트를 내 웹 사이트 사용하면 해당 서비스에서 지정한 origin과 다르기 때문에 CORS 에러가 발생한다. 이를 해결하기 위해 proxy 서버를 사용하여 요청을 중개한다.
