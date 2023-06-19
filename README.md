@@ -10,6 +10,7 @@
 
 - [AWS S3에서 React 배포하기](%08Distribute/AWS%20S3%20React%20%EB%B0%B0%ED%8F%AC.md#aws-s3-react-배포)
 - [AWS EC2에서 React 배포하기](%08Distribute/AWS%20EC2%20React%20%EB%B0%B0%ED%8F%AC.md#aws-ec2-react-배포)
+- [Nginx HTTP redirect 및 포트포워딩](%08Distribute/Nginx%20HTTP%20redirect%20%EB%B0%8F%20%ED%8F%AC%ED%8A%B8%ED%8F%AC%EC%9B%8C%EB%94%A9.md#nginx-http-redirect-및-포트포워딩)
 
 ### 🥭 Redux
 
