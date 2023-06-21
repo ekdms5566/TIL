@@ -21,6 +21,7 @@
 - [proxy 서버](Network/proxy%20%EC%84%9C%EB%B2%84.md#proxy-서버)
 - [CORS(Cross-Origin Resource Sharing)](<Network/CORS(Cross-Origin%20Resource%20Sharing).md#corscross-origin-resource-sharing>)
 - [OSI 7계층 모델과 TCP/IP 모델](Network/OSI%207%EA%B3%84%EC%B8%B5%20%EB%AA%A8%EB%8D%B8%EA%B3%BC%20TCP-IP%20%EB%AA%A8%EB%8D%B8.md#osi-7계층-모델과-tcpip-모델)
+- [DNS(Domain Name System)와 네임 서버(Name Server)](Network/DNS%EC%99%80%20%EB%84%A4%EC%9E%84%EC%84%9C%EB%B2%84.md#dnsdomain-name-system와-네임-서버name-server)
 
 ### 🚨 트러블 슈팅
 
