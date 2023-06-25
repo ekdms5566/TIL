@@ -153,3 +153,115 @@ function solution(n, a = n + 1) {
     : solution(n, a + 1);
 }
 ```
+
+[피보나치 수](https://school.programmers.co.kr/learn/courses/30/lessons/12945)
+
+```js
+function solution(n) {
+  let answer = [];
+  for (let i = 0; i <= n; i++) {
+    if (i == 0) answer.push(0);
+    if (i == 1) answer.push(1);
+    if (i >= 2) {
+      answer.push((answer[i - 1] + answer[i - 2]) % 1234567);
+    }
+  }
+  return answer[n];
+}
+```
+
+```js
+function solution(n) {
+  let result = [0, 1];
+  while (result.length !== n + 1) {
+    let fibonacci =
+      (result[result.length - 2] + result[result.length - 1]) % 1234567;
+    result.push(fibonacci);
+  }
+  return result[n];
+}
+```
+
+[짝지어 제거하기](https://school.programmers.co.kr/learn/courses/30/lessons/12973)
+
+```js
+function solution(s) {
+  let result = [];
+  for (let i = 0; i < s.length; i++) {
+    if (result.length === 0 || s[i] !== result[result.length - 1])
+      result.push(s[i]);
+    else result.pop();
+  }
+  return result.length ? 0 : 1;
+}
+```
+
+[영어 끝말잇기](https://school.programmers.co.kr/learn/courses/30/lessons/12981)
+
+```js
+// 앞 단어로 시작하지 않을 경우, 중복 단어가 있을 경우 검사
+function solution(n, words) {
+  let arr = [],
+    num = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    if (
+      arr.includes(words[i]) ||
+      (i > 0 && words[i][0] !== words[i - 1][words[i - 1].length - 1])
+    ) {
+      return [(num % n) + 1, Math.floor(num / n) + 1];
+    }
+
+    arr.push(words[i]);
+    num++;
+  }
+  return [0, 0];
+}
+```
+
+```js
+function solution(n, words) {
+  let answer = 0;
+  words.reduce((prev, now, idx) => {
+    answer =
+      answer ||
+      (words.slice(0, idx).indexOf(now) !== -1 || prev !== now[0]
+        ? idx
+        : answer);
+    return now[now.length - 1];
+  }, "");
+
+  return answer ? [(answer % n) + 1, Math.floor(answer / n) + 1] : [0, 0];
+}
+```
+
+```js
+function solution(n, words) {
+  const ans = (i, n) => [(i + 1) % n || n, Math.ceil((i + 1) / n)],
+    said = [words[0]];
+
+  for (let i = 1; i < words.length; i++) {
+    const cur = words[i],
+      pre = words[i - 1];
+
+    if (cur[0] !== pre[pre.length - 1] || said.includes(cur)) return ans(i, n);
+    else said.push(cur);
+  }
+  return [0, 0];
+}
+```
+
+[카펫](https://school.programmers.co.kr/learn/courses/30/lessons/42842)
+
+```js
+function solution(brown, yellow) {
+  const size = brown + yellow;
+
+  for (let i = size + 1; i > 1; i--) {
+    if (size % i === 0) {
+      const div = size / i;
+      if ((i - 2) * (div - 2) === yellow) return [i, div];
+    }
+  }
+}
+```
