@@ -28,7 +28,7 @@ function solution(s) {
 }
 ```
 
-[올바른 괄호](https://school.programmers.co.kr/learn/courses/30/lessons/12909)
+[올바른 괄호(스택/큐)](https://school.programmers.co.kr/learn/courses/30/lessons/12909)
 
 ```js
 function solution(s) {
@@ -251,7 +251,7 @@ function solution(n, words) {
 }
 ```
 
-[카펫](https://school.programmers.co.kr/learn/courses/30/lessons/42842)
+[카펫(완전탐색)](https://school.programmers.co.kr/learn/courses/30/lessons/42842)
 
 ```js
 function solution(brown, yellow) {
@@ -263,5 +263,112 @@ function solution(brown, yellow) {
       if ((i - 2) * (div - 2) === yellow) return [i, div];
     }
   }
+}
+```
+
+[예상 대진표](https://school.programmers.co.kr/learn/courses/30/lessons/12985)
+
+```js
+function solution(n, a, b) {
+  let answer = 0;
+
+  while (a !== b) {
+    a = Math.round(a / 2);
+    b = Math.round(b / 2);
+    answer++;
+  }
+  return answer;
+}
+```
+
+[구명보트(Greedy)](https://school.programmers.co.kr/learn/courses/30/lessons/42885)
+
+```js
+function solution(people, limit) {
+  let count = 0;
+  people.sort((a, b) => b - a);
+
+  for (let i = 0, j = people.length - 1; i <= j; i++) {
+    if (people[i] + people[j] <= limit) j--;
+    count++;
+  }
+
+  return count;
+}
+```
+
+```js
+function solution(people, limit) {
+  let count = 0,
+    l = 0,
+    r = people.length - 1;
+
+  people.sort((a, b) => b - a);
+
+  while (l < r) {
+    let sum = people[l] + people[r];
+
+    if (sum > limit) l++;
+    else {
+      l++;
+      r--;
+    }
+    count++;
+  }
+
+  if (l == r) count++;
+
+  return count;
+}
+```
+
+```js
+function solution(people, limit) {
+  people.sort(function (a, b) {
+    return a - b;
+  });
+  for (var i = 0, j = people.length - 1; i < j; j--) {
+    if (people[i] + people[j] <= limit) i++;
+  }
+  return people.length - i;
+}
+```
+
+[점프와 순간 이동](https://school.programmers.co.kr/learn/courses/30/lessons/12980)
+
+0에 어떤 수를 더하고 곱했을때 최대한 덜 더해서 n까지 가는 거리
+반대로 하면 n에 어떤 수를 뺴고 나눴을 때 최대한 덜 빼서 0까지 가는 거리를 의미한다.
+
+주어진 값을 2로 나눠가면서 나머지가 없을 경우 2로 나누기 반복, 나머지가 있다면 1회 점프(-1)해주고 반복
+
+```js
+function solution(n) {
+  let num = 0;
+
+  while (n > 0) {
+    if (n % 2 !== 0) {
+      n--;
+      num++;
+    }
+    n /= 2;
+  }
+  return num;
+}
+```
+
+```js
+// 이진수 사용
+function solution(n) {
+  if (n === 1) return 1;
+  const nArr = Array.from(n.toString(2));
+  return nArr.reduce((a, b) => +a + +b);
+}
+
+// 어떤 수 a에 2를 곱하는 방법을 a * 2로 생각할 수 있지만 시프트 연산(a << 1) 도 동일한 결과입니다. 왼쪽 시프트 연산의 경우 이진수 관점에서 가장 오른쪽에 0을 넣는 것과 마찬가지죠 ( "0b101" << 1 = "0b1010"). 주어진 수를 이진수로 바꾸어 보면 1이 나오는 위치에서 1칸 이동(에너지 1) 0이 나오는 위치에서 2배 이동(에너지 0)하면 되니, 답은 n을 이진수로 바꿨을 때 1의 갯수입니다.
+```
+
+```js
+function solution(n) {
+  return n.toString(2).replace(/0/g, "").length;
 }
 ```
