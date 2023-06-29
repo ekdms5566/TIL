@@ -372,3 +372,108 @@ function solution(n) {
   return n.toString(2).replace(/0/g, "").length;
 }
 ```
+
+[N개의 최소공배수](https://school.programmers.co.kr/learn/courses/30/lessons/12953)
+
+```js
+function solution(arr) {
+  let gcd = getGcd(arr[0], arr[1]);
+  let gcf = (arr[0] * arr[1]) / gcd;
+
+  for (let i = 1; i < arr.length; i++) {
+    gcd = getGcd(gcf, arr[i]);
+    gcf = (gcf * arr[i]) / gcd;
+  }
+
+  return gcf;
+}
+
+function getGcd(a, b) {
+  return b ? getGcd(b, a % b) : a;
+}
+```
+
+[멀리 뛰기](https://school.programmers.co.kr/learn/courses/30/lessons/12914)
+
+피보나치 수열을 재귀함수로 구현할 때 콜 스택(Call Stack)에 굉장히 무리가 가게 되는데, 이는 동일한 계산을 계속 반복하기 때문이다. 때문에 이를 해결하기 위해 메모이제이션(Memoization)이라는 방식을 사용하는데 쉽게 말하면 DP(Dynamic Programming)과 유사하다.
+
+보통 피보나치를 DP로 구할 때 편의를 위해 1번째 값은 1, 2번째 값은 2로 미리 초기화하여 구현하기도 한다.
+
+```js
+// DP 활용한 피보나치 수열
+
+// n = 1일 때, 1
+// n = 2일 때, 2
+// n = 3일 때, 3
+function solution(n) {
+  const dp = new Array(n + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = 1;
+
+  for (let i = 2; i <= n; i++) dp[i] = (dp[i - 1] + dp[i - 2]) % 1234567;
+
+  return dp[n];
+}
+```
+
+```js
+function solution(n) {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
+  if (n === 3) return 3;
+
+  let arr = [1, 2, 3];
+
+  for (let i = 3; i < n; i++) {
+    arr[i] = arr[i - 1] + (arr[i - 2] % 1234567);
+    arr.push(arr[i]);
+  }
+
+  return arr[n] % 1234567;
+}
+```
+
+[귤 고르기](https://school.programmers.co.kr/learn/courses/30/lessons/138476)
+
+각 값의 인덱스
+
+```js
+function solution(k, tangerine) {
+  let count = 0;
+  const countObj = {};
+
+  tangerine.forEach((value) => (countObj[value] = (countObj[value] || 0) + 1));
+
+  Object.values(countObj)
+    .sort((a, b) => b - a)
+    .map((val) => {
+      if (k > 0) {
+        k -= val;
+        count++;
+      }
+    });
+
+  return count;
+}
+```
+
+```js
+function solution(k, tangerine) {
+  let answer = 0;
+  const tDict = {};
+  tangerine.forEach((t) => (tDict[t] = (tDict[t] || 0) + 1));
+  const tArr = Object.values(tDict).sort((a, b) => b - a);
+  for (const t of tArr) {
+    answer++;
+    if (k > t) k -= t;
+    else break;
+  }
+  return answer;
+}
+```
+
+[괄호 회전하기](https://school.programmers.co.kr/learn/courses/30/lessons/76502)
+
+```js
+
+```

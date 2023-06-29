@@ -16,6 +16,10 @@
 
 - [Moment.js의 문제점과 대체 가능한 날짜 라이브러리](Javascript/Javascript%EC%9D%98%20%EB%82%A0%EC%A7%9C%20%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC.md#javascript의-날짜-라이브러리)
 
+### 🥔 Algorithm
+
+- [최대공약수, 최소공배수 - 유클리드 호제법](algorithm/%EC%B5%9C%EB%8C%80%EA%B3%B5%EC%95%BD%EC%88%98,%20%EC%B5%9C%EC%86%8C%EA%B3%B5%EB%B0%B0%EC%88%98%20-%20%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%20%ED%98%B8%EC%A0%9C%EB%B2%95.md#최대공약수-최소공배수---유클리드-호제법)
+
 ### 🥭 Redux
 
 - [redux-persist 적용하여 새로고침 시에도 store 유지하기](Redux/redux-persist%20%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0.md#redux-persist-적용하여-새로고침-시에도-store-유지하기)
