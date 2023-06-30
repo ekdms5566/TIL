@@ -176,3 +176,112 @@ function solution(n, count = 0) {
   return count;
 }
 ```
+
+[3진법 뒤집기](https://school.programmers.co.kr/learn/courses/30/lessons/68935)
+
+```js
+function solution(n) {
+  return parseInt([...n.toString(3)].reverse().join(""), 3);
+}
+```
+
+[K번째 수](https://school.programmers.co.kr/learn/courses/30/lessons/42748)
+
+```js
+function solution(array, commands) {
+  return commands.map(
+    (i) => array.slice(i[0] - 1, i[1]).sort((a, b) => a - b)[i[2] - 1]
+  );
+}
+```
+
+```js
+function solution(array, commands) {
+  return commands.map((command) => {
+    const [sPosition, ePosition, position] = command;
+    const newArray = array
+      .filter(
+        (value, fIndex) => fIndex >= sPosition - 1 && fIndex <= ePosition - 1
+      )
+      .sort((a, b) => a - b);
+
+    return newArray[position - 1];
+  });
+}
+```
+
+[비밀지도](https://school.programmers.co.kr/learn/courses/30/lessons/17681)
+
+```js
+function solution(n, arr1, arr2) {
+  answer = [];
+  const zip = (a, b) => a.map((v, i) => [v, b[i]]);
+  for ([i, j] of zip(arr1, arr2)) {
+    answer.push(
+      (i | j).toString(2).padStart(n, "0").replace(/1/g, "#").replace(/0/g, " ")
+    );
+  }
+  return answer;
+}
+```
+
+```js
+function solution(n, arr1, arr2) {
+  answer = [];
+  for (let i = 0; i < n; i++) {
+    answer.push(
+      (arr1[i] | arr2[i])
+        .toString(2)
+        .padStart(n, "0")
+        .replace(/1/g, "#")
+        .replace(/0/g, " ")
+    );
+  }
+  return answer;
+}
+```
+
+```js
+var solution = (n, a, b) =>
+  a.map((a, i) =>
+    (a | b[i]).toString(2).padStart(n, 0).replace(/0/g, " ").replace(/1/g, "#")
+  );
+```
+
+```js
+function solution(n, arr1, arr2) {
+  return arr1.map((v, i) =>
+    addZero(n, (v | arr2[i]).toString(2)).replace(/1|0/g, (a) =>
+      +a ? "#" : " "
+    )
+  );
+}
+
+const addZero = (n, s) => {
+  return "0".repeat(n - s.length) + s;
+};
+```
+
+[x만큼 간격이 있는 n개의 숫자](https://school.programmers.co.kr/learn/courses/30/lessons/12954)
+
+```js
+function solution(x, n) {
+  return Array(n)
+    .fill(x)
+    .map((_, i) => x * i + x);
+}
+```
+
+```js
+function solution(x, n) {
+  return [...Array(n).keys()].map((v) => (v + 1) * x);
+}
+```
+
+```js
+function solution(x, n) {
+  return Array(n)
+    .fill(x)
+    .map((v, i) => (i + 1) * v);
+}
+```
