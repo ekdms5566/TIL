@@ -475,5 +475,165 @@ function solution(k, tangerine) {
 [괄호 회전하기](https://school.programmers.co.kr/learn/courses/30/lessons/76502)
 
 ```js
+function solution(s) {
+  if (s.length % 2 === 1) return 0;
+  const sLen = s.length;
+  let answer = 0;
 
+  for (let i = 0; i < sLen; i++) {
+    let str = s.slice(i) + s.slice(0, i);
+    const stack = [];
+    let flag = 1;
+    for (let n of str) {
+      if (n === "(" || n === "{" || n === "[") stack.push(n);
+      else {
+        const bracket = stack.pop();
+        if (n === ")" && bracket === "(") continue;
+        if (n === "}" && bracket === "{") continue;
+        if (n === "]" && bracket === "[") continue;
+        flag = 0;
+        break;
+      }
+    }
+    if (flag) answer++;
+  }
+  return answer;
+}
+```
+
+```js
+function solution(s) {
+  let answer = 0;
+  let sArr = s.split("");
+
+  for (let i = 0; i < sArr.length; i++) {
+    sArr.push(sArr.shift());
+
+    if (check(sArr)) {
+      answer++;
+    }
+  }
+
+  return answer;
+}
+
+function check(arr) {
+  let checkArr = [];
+  const obj = {
+    "[": "]",
+    "(": ")",
+    "{": "}",
+  };
+
+  for (let i = 0; i < arr.length; i++) {
+    if (obj[checkArr[checkArr.length - 1]] === arr[i]) {
+      checkArr.pop();
+    } else {
+      checkArr.push(arr[i]);
+    }
+  }
+
+  return checkArr.length === 0;
+}
+```
+
+[H-Index(정렬)](https://school.programmers.co.kr/learn/courses/30/lessons/42747)
+
+존재하는 인용수의 인용수 이상의 개수를 기준으로 잡는것이 아니라 max부터 1씩 내려오면서 검사
+
+```js
+function solution(citations) {
+  let result = 0;
+  const arr = citations.sort((a, b) => b - a);
+  for (let i = 1; i <= arr.length; i++) {
+    if (arr.filter((val) => val >= i).length >= i) {
+      result = i;
+    }
+  }
+  return result;
+}
+```
+
+```js
+const solution = (citations) =>
+  citations.sort((a, b) => b - a).filter((el, idx) => el >= idx + 1).length;
+```
+
+```js
+function solution(citations) {
+  citations = citations.sort(sorting);
+  let i = 0;
+  while (i + 1 <= citations[i]) {
+    i++;
+  }
+  return i;
+
+  function sorting(a, b) {
+    return b - a;
+  }
+}
+```
+
+[연속 부분 수열 합의 개수](https://school.programmers.co.kr/learn/courses/30/lessons/131701)
+
+```js
+function solution(elements) {
+  let answer = [];
+  const extendElements = [...elements, ...elements];
+
+  elements.forEach((element, idx) => {
+    if (idx < elements.length) {
+      for (let i = 0; i < elements.length; i++) {
+        const slice = extendElements.slice(i, i + 1 + idx);
+        answer.push(slice.reduce((acc, val) => acc + val, 0));
+      }
+    }
+  });
+
+  const set = new Set(answer);
+  return [...set].length;
+}
+```
+
+```js
+function solution(elements) {
+  const circular = elements.concat(elements);
+  const set = new Set();
+  for (let i = 0; i < elements.length; i++) {
+    let sum = 0;
+    for (let j = 0; j < elements.length; j++) {
+      sum += circular[i + j];
+      set.add(sum);
+    }
+  }
+  return set.size;
+}
+```
+
+```js
+const solution = (elements) => {
+  const sumSet = new Set();
+
+  const getSum = (arr) => {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) sum += arr[i];
+    return sum;
+  };
+
+  const len = elements.length;
+  for (let i = 1; i <= len; i++) {
+    for (let j = 0; j < len; j++) {
+      if (j + i > len) {
+        sumSet.add(
+          getSum(elements.slice(j, len)) +
+            getSum(elements.slice(0, j + i - len))
+        );
+      } else {
+        sumSet.add(getSum(elements.slice(j, j + i)));
+      }
+    }
+  }
+
+  return sumSet.size;
+};
 ```
