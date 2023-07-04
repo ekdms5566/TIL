@@ -285,3 +285,250 @@ function solution(x, n) {
     .map((v, i) => (i + 1) * v);
 }
 ```
+
+[가운데 글자 가져오기](https://school.programmers.co.kr/learn/courses/30/lessons/12903)\
+
+```js
+function solution(s) {
+  return s.length % 2 === 0
+    ? s.slice(Math.floor(s.length / 2 - 1), Math.floor(s.length / 2 + 1))
+    : s.slice(Math.floor(s.length / 2), Math.floor(s.length / 2 + 1));
+}
+```
+
+```js
+function solution(s) {
+  return s.substr(Math.ceil(s.length / 2) - 1, s.length % 2 === 0 ? 2 : 1);
+}
+```
+
+```js
+function solution(s) {
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 === 1 ? s[mid] : s[mid - 1] + s[mid];
+}
+```
+
+[제일 작은 수 제거하기](https://school.programmers.co.kr/learn/courses/30/lessons/12935)
+
+```js
+function solution(arr) {
+  return arr.length === 1 ? [-1] : arr.filter((v) => v > Math.min(...arr));
+}
+```
+
+```js
+function solution(arr) {
+  arr.splice(arr.indexOf(Math.min(...arr)), 1);
+  if (arr.length < 1) return [-1];
+  return arr;
+}
+```
+
+[같은 숫자는 싫어](https://school.programmers.co.kr/learn/courses/30/lessons/12906)
+
+```js
+function solution(arr) {
+  return arr.filter((v, i) => arr[i] !== arr[i + 1]);
+}
+```
+
+```js
+function solution(arr) {
+  return arr.filter((val, index) => val != arr[index + 1]);
+}
+```
+
+```js
+let solution = (_) => _.filter((i, $) => i != _[--$]);
+```
+
+[나누어 떨어지는 숫자 배열](https://school.programmers.co.kr/learn/courses/30/lessons/12910)
+
+```js
+function solution(arr, divisor) {
+  let list = arr.filter((i) => i % divisor === 0).sort((a, b) => a - b);
+  return list.length !== 0 ? list : [-1];
+}
+```
+
+```js
+function solution(arr, divisor) {
+  var answer = arr.filter((v) => v % divisor == 0);
+  return answer.length == 0 ? [-1] : answer.sort((a, b) => a - b);
+}
+```
+
+[나머지가 1이 되는 수 찾기](https://school.programmers.co.kr/learn/courses/30/lessons/87389)
+
+```js
+function solution(n) {
+  for (let i = 0; i <= n; i++) {
+    if (n % i === 1) {
+      return i;
+    }
+  }
+}
+```
+
+```js
+function solution(n, x = 1) {
+  while (x++) {
+    if (n % x === 1) {
+      return x;
+    }
+  }
+}
+```
+
+[내적](https://school.programmers.co.kr/learn/courses/30/lessons/70128)
+
+```js
+function solution(a, b) {
+  for (let i = 0; i < a.length; i++) {
+    a[i] *= b[i];
+  }
+  return a.reduce((a, c) => a + c);
+}
+```
+
+```js
+function solution(a, b) {
+  return a.reduce((acc, _, i) => (acc += a[i] * b[i]), 0);
+}
+```
+
+[두 개 뽑아서 더하기](https://school.programmers.co.kr/learn/courses/30/lessons/68644)
+
+```js
+function solution(numbers) {
+  const list = [];
+  for (let i = 0; i < numbers.length; i++) {
+    for (let j = i + 1; j < numbers.length; j++) {
+      list.push(numbers[i] + numbers[j]);
+    }
+  }
+  return [...new Set(list)].sort((a, b) => a - b);
+}
+```
+
+```js
+function solution(numbers) {
+  var answer = [];
+  numbers = numbers.sort();
+  console.log(numbers);
+  for (var i = 0; i < numbers.length; i++) {
+    for (var k = i + 1; k < numbers.length; k++) {
+      if (!answer.includes(numbers[i] + numbers[k])) {
+        answer.push(numbers[i] + numbers[k]);
+      }
+    }
+  }
+  answer = answer.sort(function (a, b) {
+    return a - b;
+  });
+  return answer;
+}
+```
+
+[두 정수 사이의 합](https://school.programmers.co.kr/learn/courses/30/lessons/12912)
+
+```js
+function solution(a, b) {
+  let num = 0;
+  for (let i = Math.min(a, b); i <= Math.max(a, b); i++) {
+    num += i;
+  }
+  return num;
+}
+```
+
+```js
+// 양 끝의 합 * 양 끝의 합의 개수
+// 등차수열의 합 공식과 동일
+function adder(a, b) {
+  return ((a + b) * (Math.abs(b - a) + 1)) / 2;
+}
+```
+
+[문자열 내 p와 y의 개수](https://school.programmers.co.kr/learn/courses/30/lessons/12916)
+
+```js
+function solution(s) {
+  let p = 0,
+    y = 0;
+  s.toLowerCase()
+    .split("")
+    .map((i) => (i === "p" ? p++ : i === "y" ? y++ : true));
+  return p === y ? true : false;
+}
+```
+
+```js
+function numPY(s) {
+  return (
+    s.toUpperCase().split("P").length === s.toUpperCase().split("Y").length
+  );
+}
+```
+
+```js
+function solution(s) {
+  return [...s.toLowerCase()].reduce((acc, cur) => {
+    if (cur === "p") return acc + 1;
+    else if (cur === "y") return acc - 1;
+    return acc;
+  }, 0)
+    ? false
+    : true;
+}
+```
+
+[삼총사](https://school.programmers.co.kr/learn/courses/30/lessons/131705)
+
+```js
+function solution(number, count = 0) {
+  for (let i = 0; i < number.length; i++) {
+    for (let j = i + 1; j < number.length; j++) {
+      for (let k = j + 1; k < number.length; k++) {
+        if (number[i] + number[j] + number[k] === 0) count++;
+      }
+    }
+  }
+  return count;
+}
+```
+
+```js
+function solution(number) {
+  let result = 0;
+
+  const combination = (current, start) => {
+    if (current.length === 3) {
+      result += current.reduce((acc, cur) => acc + cur, 0) === 0 ? 1 : 0;
+      return;
+    }
+
+    for (let i = start; i < number.length; i++) {
+      combination([...current, number[i]], i + 1);
+    }
+  };
+  combination([], 0);
+  return result;
+}
+```
+
+```js
+function solution(number) {
+  var answer = 0;
+  for (let i = 0; i < number.length - 2; i++) {
+    for (let j = i + 1; j < number.length - 1; j++) {
+      for (let k = j + 1; k < number.length; k++) {
+        const sum = number[i] + number[j] + number[k];
+        if (sum === 0) answer++;
+      }
+    }
+  }
+  return answer;
+}
+```
