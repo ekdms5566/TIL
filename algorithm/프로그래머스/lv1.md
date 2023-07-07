@@ -532,3 +532,108 @@ function solution(number) {
   return answer;
 }
 ```
+
+[콜라츠추측](https://school.programmers.co.kr/learn/courses/30/lessons/12943)
+
+```js
+function solution(num, count = 0) {
+  for (let i = 0; i < 500; i++) {
+    if (num === 1) {
+      return count;
+    } else if (num % 2 === 0) {
+      num /= 2;
+    } else {
+      num = num * 3 + 1;
+    }
+    count++;
+  }
+  return -1;
+}
+```
+
+```js
+function collatz(num) {
+  var answer = 0;
+  while (num != 1 && answer != 500) {
+    num % 2 == 0 ? (num = num / 2) : (num = num * 3 + 1);
+    answer++;
+  }
+  return num == 1 ? answer : -1;
+}
+```
+
+```js
+// 재귀함수 활용
+function collatz(num, count = 0) {
+  return num == 1
+    ? count >= 500
+      ? -1
+      : count
+    : collatz(num % 2 == 0 ? num / 2 : num * 3 + 1, ++count);
+}
+```
+
+```js
+const solution = (num) => collatzGuessCount(num, 0);
+
+const collatzGuessCount = (num, acc) =>
+  num === 1
+    ? acc > 500
+      ? -1
+      : acc
+    : collatzGuessCount(processCollatz(num), acc + 1);
+
+const processCollatz = (num) => (num % 2 === 0 ? num / 2 : num * 3 + 1);
+```
+
+[시저암호](https://school.programmers.co.kr/learn/courses/30/lessons/12926#qna)
+
+```js
+function solution(s, n) {
+  return s
+    .split("")
+    .map((i) => {
+      let code = i.charCodeAt();
+      console.log(code);
+      if ((code + n > 90 && code <= 90) || code + n > 122) {
+        return String.fromCharCode(code + n - 26);
+      } else {
+        return String.fromCharCode(code + n);
+      }
+    })
+    .join("")
+    .replaceAll(/[^a-zA-Z]/g, " ");
+}
+```
+
+```js
+function solution(s, n) {
+  var upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var lower = "abcdefghijklmnopqrstuvwxyz";
+  var answer = "";
+
+  for (var i = 0; i < s.length; i++) {
+    var text = s[i];
+    if (text == " ") {
+      answer += " ";
+      continue;
+    }
+    var textArr = upper.includes(text) ? upper : lower;
+    var index = textArr.indexOf(text) + n;
+    if (index >= textArr.length) index -= textArr.length;
+    answer += textArr[index];
+  }
+  return answer;
+}
+```
+
+```js
+function caesar(s, n) {
+  return s.replace(/([a-z])|([A-Z])/g, (c, lowerCase) => {
+    var startCode = lowerCase ? "a".charCodeAt(0) : "A".charCodeAt(0);
+    return String.fromCharCode(
+      ((c.charCodeAt(0) - startCode + n) % 26) + startCode
+    );
+  });
+}
+```
