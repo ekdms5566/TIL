@@ -637,3 +637,172 @@ const solution = (elements) => {
   return sumSet.size;
 };
 ```
+
+[n^2 배열 자르기](https://school.programmers.co.kr/learn/courses/30/lessons/87390)
+
+```js
+function solution(n, left, right) {
+  let answer = [];
+  for (var i = left; i <= right; i++)
+    answer.push(Math.max(Number.parseInt(i / n), i % n) + 1);
+  return answer;
+}
+```
+
+```js
+function solution(n, left, right) {
+  if (n === 1)
+    if (left >= 1) return [];
+    else return [1];
+
+  const answer = [];
+  let rowCount = Math.floor(left / n) + 1;
+
+  for (let i = left; i < right + 1; i++) {
+    if ((i + 1) % n === 0) {
+      answer.push(n);
+      rowCount += 1;
+      continue;
+    }
+    if (i % n < rowCount) answer.push(rowCount);
+    else answer.push((i + 1) % n);
+  }
+  return answer;
+}
+```
+
+[행렬의 곱셈](https://school.programmers.co.kr/learn/courses/30/lessons/12949)
+
+**[a1,b1]** [a1*c1 + b1*c2, a1*d1+b1*d2]
+
+**[a2,b2] x [c1,d1]** = [a2*c1 + b2*c2, a2*d1+b2*d2]
+
+**[a3,b3] [c2,d2]** [a3*c1 + b3*c2, a3*d1+b3*d2]
+
+행렬 곱셈 시, 앞에 행렬의 열의 수와 뒤에 행렬의 행의 수가 같아야하고 최종적으로 나오는 행렬은 앞에 행렬의 행의 수 x 뒤에 행렬의 열의 수
+
+```js
+function solution(arr1, arr2) {
+  let b = arr1.length;
+  let a = arr2[0].length;
+
+  let answer = new Array(b);
+  for (let i = 0; i < b; i++) {
+    answer[i] = new Array(a).fill(0);
+  }
+
+  for (let i = 0; i < b; i++) {
+    for (let k = 0; k < arr1[i].length; k++) {
+      for (let j = 0; j < a; j++) {
+        answer[i][j] += arr1[i][k] * arr2[k][j];
+      }
+    }
+  }
+
+  return answer;
+}
+```
+
+```js
+function solution(arr1, arr2) {
+  return arr1.map((row) =>
+    arr2[0].map((x, y) => row.reduce((a, b, c) => a + b * arr2[c][y], 0))
+  );
+}
+```
+
+[[1차] 캐시](https://school.programmers.co.kr/learn/courses/30/lessons/17680)
+
+LRU(Least Recently Used) 알고리즘 사용
+
+```
+0일때 예외처리
+순회하면서 cache 값 계산
+cache가 여유있다면 push
+캐시가 부족하다면 최신 캐시와 연관된 것이 있다면 그것을 삭제
+캐시가 부족하다면 최신 캐시와 연관된 것이 없다면 오래된 것을 삭제
+그후 현재 city push
+```
+
+```js
+function solution(cacheSize, cities) {
+  let time = 0;
+  let cache = [];
+  for (let i = 0; i < cities.length; i++) {
+    let city = cities[i].toLowerCase();
+    let index = cache.indexOf(city);
+    if (index !== -1) {
+      //hit
+      cache.splice(index, 1);
+      cache.push(city);
+      time += 1;
+    } else {
+      //miss
+      cache.push(city);
+      time += 5;
+      if (cacheSize < cache.length) {
+        cache.shift();
+      }
+    }
+  }
+  return time;
+}
+```
+
+```js
+// 큐 활용
+function solution(cacheSize, cities) {
+  const MISS = 5,
+    HIT = 1;
+
+  if (cacheSize === 0) return MISS * cities.length;
+
+  let answer = 0,
+    cache = [];
+
+  cities.forEach((city) => {
+    city = city.toUpperCase();
+
+    let idx = cache.indexOf(city);
+
+    if (idx > -1) {
+      cache.splice(idx, 1);
+      answer += HIT;
+    } else {
+      if (cache.length >= cacheSize) cache.shift();
+      answer += MISS;
+    }
+
+    cache.push(city);
+  });
+
+  return answer;
+}
+```
+
+```js
+// iterator
+function solution(cacheSize, cities) {
+  const map = new Map();
+  const cacheHit = (city, map) => {
+    map.delete(city);
+    map.set(city, city);
+    return 1;
+  };
+  const cacheMiss = (city, map, size) => {
+    if (size === 0) return 5;
+    map.size === size && map.delete(map.keys().next().value);
+    map.set(city, city);
+    return 5;
+  };
+  const getTimeCache = (city, map, size) =>
+    (map.has(city.toLocaleLowerCase()) ? cacheHit : cacheMiss)(
+      city.toLocaleLowerCase(),
+      map,
+      size
+    );
+  return cities
+    .map((city) => getTimeCache(city.toLocaleLowerCase(), map, cacheSize))
+    .reduce((a, c) => a + c, 0);
+}
+```
