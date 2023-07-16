@@ -806,3 +806,112 @@ function solution(cacheSize, cities) {
     .reduce((a, c) => a + c, 0);
 }
 ```
+
+[의상 - 해시](https://school.programmers.co.kr/learn/courses/30/lessons/42578)
+
+객체에 {부위명: 부위명에 속한 옷 갯수} 형태로 갯수를 누적시킨다음, 그 갯수들을 + 1 한 값으로 모두 곱한 후 최종 -1 하여 리턴
+(해당 부위의 옷 개수 n(착용하는 경우의 수) + 1(착용하지 않는 경우)) \* 옷 타입 개수 만큼 누적 계산(경우의 수 곱의 법칙)... -1(모두 착용하지 않는 경우)
+
+```js
+function solution(clothes) {
+  let category = {};
+  let answer = 1;
+  clothes.forEach((v) => (category[v[1]] = (category[v[1]] || 0) + 1));
+  for (let v in category) answer *= category[v] + 1;
+  return answer - 1;
+}
+```
+
+```js
+function solution(clothes) {
+  return (
+    Object.values(
+      clothes.reduce((obj, t) => {
+        obj[t[1]] = obj[t[1]] ? obj[t[1]] + 1 : 1;
+        return obj;
+      }, {})
+    ).reduce((a, b) => a * (b + 1), 1) - 1
+  );
+}
+```
+
+```js
+function solution(clothes) {
+  let answer = 1;
+  const obj = {};
+  for (let arr of clothes) {
+    obj[arr[1]] = (obj[arr[1]] || 0) + 1;
+  }
+
+  for (let key in obj) {
+    answer *= obj[key] + 1;
+  }
+
+  return answer - 1;
+}
+```
+
+[튜플](https://school.programmers.co.kr/learn/courses/30/lessons/64065)
+
+```js
+function solution(s) {
+  let answer = [];
+  let a = s.split(",{");
+  a.sort((a, b) => a.length - b.length);
+  for (let j of a) {
+    let numbers = j.match(/\d+/g);
+    for (let k of numbers) {
+      if (!answer.includes(Number(k))) {
+        answer.push(Number(k));
+      }
+    }
+  }
+  return answer;
+}
+```
+
+```js
+const tupleFrom = (str) =>
+  str
+    .slice(2, -2)
+    .split("},{")
+    .map((it) => toNumbers(it))
+    .sort(accendingByLength)
+    .reduce(
+      (acc, cur) => [...acc, ...cur.filter((it) => !acc.includes(it))],
+      []
+    );
+
+const toNumbers = (str) => str.split(",").map((it) => Number(it));
+
+const accendingByLength = (arr1, arr2) => arr1.length - arr2.length;
+
+const solution = (s) => tupleFrom(s);
+```
+
+```js
+const solution = (s) =>
+  s
+    .match(/(\d+,)*\d+/g)
+    .map((s) => s.split(",").map((n) => +n))
+    .sort((a, b) => a.length - b.length)
+    .reduce((a, s) => [...a, ...s.filter((n) => a.indexOf(n) === -1)], []);
+```
+
+```js
+// Set 활용
+const solution = (s) => tupple(changeMatrix(getSets(s)));
+
+const getSets = (s) => {
+  const sets = s.match(/{[\d,]+}/g);
+  return sets
+    .map((set) => set.match(/[\d]+,?/g).map((v) => parseInt(v)))
+    .sort((a, b) => a.length - b.length);
+};
+
+const changeMatrix = (sets) => sets.reduce((_, set) => _.concat(set), []);
+
+const tupple = (arr) => [
+  ...arr.reduce((set, value) => set.add(value), new Set()),
+];
+```
