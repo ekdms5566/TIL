@@ -915,3 +915,131 @@ const tupple = (arr) => [
   ...arr.reduce((set, value) => set.add(value), new Set()),
 ];
 ```
+
+[할인 행사](https://school.programmers.co.kr/learn/courses/30/lessons/131127)
+
+```js
+function solution(want, number, discount) {
+  const dict = {};
+  let answer = 0;
+
+  for (let i = 0; i < want.length; i++) dict[want[i]] = number[i];
+
+  for (let i = 0; i <= discount.length - 10; i++) {
+    if (!want.includes(discount[i])) continue;
+    const tmp = discount.slice(i, i + 10);
+    if (tmp.filter((el) => !want.includes(el)).length) continue;
+    let check = true;
+    for (let i = 0; i < want.length; i++) {
+      if (dict[want[i]] !== tmp.filter((el) => el === want[i]).length) {
+        check = false;
+        break;
+      }
+    }
+    if (check) answer++;
+  }
+  return answer;
+}
+```
+
+```js
+function solution(want, number, discount) {
+  let count = 0;
+  for (let i = 0; i < discount.length - 9; i++) {
+    const slice = discount.slice(i, i + 10);
+
+    let flag = true;
+    for (let j = 0; j < want.length; j++) {
+      if (slice.filter((item) => item === want[j]).length !== number[j]) {
+        flag = false;
+        break;
+      }
+    }
+    if (flag) count += 1;
+  }
+  return count;
+}
+```
+
+```js
+function solution(want, number, discount) {
+  var answer = 0;
+  const info = {};
+  for (let i = 0; i < number.length; i++) {
+    info[`${want[i]}`] = info[`${want[i]}`] || number[i];
+  }
+  for (let i = 0; i <= discount.length - 10; i++) {
+    let flag = true;
+    for (let w of want) {
+      if (
+        discount.slice(i, i + 10).filter((x) => x === w).length < info[`${w}`]
+      ) {
+        flag = false;
+        break;
+      }
+    }
+    if (flag) answer++;
+  }
+  return answer;
+}
+```
+
+[기능 개발 - 스택/큐](https://school.programmers.co.kr/learn/courses/30/lessons/42586)
+
+```js
+function solution(progresses, speeds) {
+  const newArr = new Array(100).fill(0);
+  let answer = -1;
+  for (let i = 0; i < progresses.length; i++) {
+    while (progresses[i] + answer * speeds[i] < 100) {
+      answer++;
+    }
+    newArr[answer]++;
+  }
+  return newArr.filter((i) => i !== 0);
+}
+```
+
+```js
+function solution(progresses, speeds) {
+  const q = [];
+  const answerList = [];
+
+  for (let i = 0; i < speeds.length; i++) {
+    const remain = (100 - progresses[i]) / speeds[i];
+    const date = Math.ceil(remain);
+
+    if (q.length > 0 && q[0] < date) {
+      answerList.push(q.length);
+      q.length = 0;
+    }
+
+    q.push(date);
+  }
+
+  answerList.push(q.length);
+
+  return answerList;
+}
+```
+
+```js
+function solution(progresses, speeds) {
+  let answer = [0];
+  let days = progresses.map((progress, index) =>
+    Math.ceil((100 - progress) / speeds[index])
+  );
+  let maxDay = days[0];
+
+  for (let i = 0, j = 0; i < days.length; i++) {
+    if (days[i] <= maxDay) {
+      answer[j] += 1;
+    } else {
+      maxDay = days[i];
+      answer[++j] = 1;
+    }
+  }
+
+  return answer;
+}
+```
