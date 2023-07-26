@@ -132,3 +132,81 @@ for (let i = 1; i < count; i++) {
 }
 console.log(max);
 ```
+
+[폭탄 구현하기](https://level.goorm.io/exam/159666/%ED%8F%AD%ED%83%84-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0/quiz/1)
+
+```js
+function solution(n, data) {
+  const arr = Array.from({ length: n }, () => Array(n).fill(0));
+
+  for (let [y, x] of data) {
+    arr[y][x]++;
+
+    const directions = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+
+    for (let [dy, dx] of directions) {
+      const ny = y + dy;
+      const nx = x + dx;
+
+      if (ny >= 0 && ny < n && nx >= 0 && nx < n) arr[ny][nx]++;
+    }
+  }
+
+  console.log(arr.flat().reduce((a, c) => a + c, 0));
+}
+
+const readline = require("readline");
+
+(async () => {
+  let rl = readline.createInterface({ input: process.stdin });
+  let n = null;
+  let data = [];
+
+  for await (const line of rl) {
+    if (!line) rl.close();
+    else if (!n) n = ~~line.split(" ")[0];
+    else data.push(line.split(" ").map((el) => +el - 1));
+  }
+
+  solution(n, data);
+
+  process.exit();
+})();
+```
+
+[단어장 만들기](https://level.goorm.io/exam/148704/%EA%B8%B0%EB%B3%B8-%EB%8B%A8%EC%96%B4%EC%9E%A5-%EB%A7%8C%EB%93%A4%EA%B8%B0/quiz/1)
+
+길이순 정렬 - sort((a, b) => a.length - b.length)
+
+```js
+function solution(n, data) {
+  data.sort();
+  data.sort((a, b) => a.length - b.length);
+
+  console.log(data[n - 1]);
+}
+
+const readline = require("readline");
+
+(async () => {
+  let rl = readline.createInterface({ input: process.stdin });
+  let n = null;
+  let data = [];
+
+  for await (const line of rl) {
+    if (!line) rl.close();
+    else if (!n) {
+      n = ~~line.split(" ")[1];
+    } else data.push(line);
+  }
+
+  solution(n, data);
+
+  process.exit();
+})();
+```
