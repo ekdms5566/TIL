@@ -1043,3 +1043,71 @@ function solution(progresses, speeds) {
   return answer;
 }
 ```
+
+[프로세스 - 스택/큐](https://school.programmers.co.kr/learn/courses/30/lessons/42587)
+
+```js
+function solution(priorities, location) {
+  const queue = [];
+  priorities = priorities.map((priority, index) => [priority, index]);
+
+  while (priorities.length) {
+    const [priority, index] = priorities.shift();
+    const higherImportance = priorities.findIndex(
+      ([value, _]) => value > priority
+    );
+
+    if (higherImportance === -1) {
+      if (index === location) return queue.length + 1;
+      queue.push([priority, index]);
+      continue;
+    }
+
+    priorities.push([priority, index]);
+  }
+}
+```
+
+```js
+function solution(priorities, location) {
+  var list = priorities.map((t, i) => ({
+    my: i === location,
+    val: t,
+  }));
+  var count = 0;
+  while (true) {
+    var cur = list.splice(0, 1)[0];
+    if (list.some((t) => t.val > cur.val)) {
+      list.push(cur);
+    } else {
+      count++;
+      if (cur.my) return count;
+    }
+  }
+}
+```
+
+```js
+function solution(priorities, location) {
+  var arr = priorities.map((priority, index) => {
+    return {
+      index: index,
+      priority: priority,
+    };
+  });
+
+  var queue = [];
+
+  while (arr.length > 0) {
+    var firstEle = arr.shift();
+    var hasHighPriority = arr.some((ele) => ele.priority > firstEle.priority);
+    if (hasHighPriority) {
+      arr.push(firstEle);
+    } else {
+      queue.push(firstEle);
+    }
+  }
+
+  return queue.findIndex((queueEle) => queueEle.index === location) + 1;
+}
+```
