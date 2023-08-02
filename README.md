@@ -19,6 +19,7 @@
 ### 🥔 Algorithm
 
 - [최대공약수, 최소공배수 - 유클리드 호제법](algorithm/%EC%B5%9C%EB%8C%80%EA%B3%B5%EC%95%BD%EC%88%98,%20%EC%B5%9C%EC%86%8C%EA%B3%B5%EB%B0%B0%EC%88%98%20-%20%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%20%ED%98%B8%EC%A0%9C%EB%B2%95.md#최대공약수-최소공배수---유클리드-호제법)
+- [스택(Stack), 큐(Queue) 알고리즘](algorithm/%EC%8A%A4%ED%83%9D,%20%ED%81%90.md#스택-큐)
 
 ### 🥭 Redux
 
