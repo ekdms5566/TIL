@@ -1111,3 +1111,404 @@ function solution(priorities, location) {
   return queue.findIndex((queueEle) => queueEle.index === location) + 1;
 }
 ```
+
+[뉴스 클러스터링 - 카카오 블라인드 인크루트](https://school.programmers.co.kr/learn/courses/30/lessons/17677)
+
+자카드 유사도
+
+```js
+function solution(str1, str2) {
+  let str1Arr = [],
+    str2Arr = [];
+
+  for (let i = 0; i < str1.length - 1; i++) {
+    const word = str1.slice(i, i + 2).toLowerCase();
+    if (/^[A-Za-z]+$/.test(word)) str1Arr.push(word);
+  }
+
+  for (let i = 0; i < str2.length - 1; i++) {
+    const word = str2.slice(i, i + 2).toLowerCase();
+    if (/^[A-Za-z]+$/.test(word)) str2Arr.push(word);
+  }
+
+  if (!str1Arr.length && !str2Arr.length) return 65536;
+
+  let intersection = [];
+  let union = str1Arr.concat(str2Arr);
+
+  str1Arr.forEach((a) => {
+    let i = str2Arr.findIndex((e) => e === a);
+    if (i >= 0) {
+      intersection.push(a);
+      str2Arr.splice(i, 1);
+    }
+  });
+
+  intersection.forEach((a) => {
+    let i = union.findIndex((e) => e === a);
+    union.splice(i, 1);
+  });
+
+  if (intersection.length === 0 && union.length > 0) return 0;
+
+  return Math.trunc((intersection.length / union.length) * 65536);
+}
+```
+
+```js
+function solution(str1, str2) {
+  function explode(text) {
+    const result = [];
+    for (let i = 0; i < text.length - 1; i++) {
+      const node = text.substr(i, 2);
+      if (node.match(/[A-Za-z]{2}/)) {
+        result.push(node.toLowerCase());
+      }
+    }
+    return result;
+  }
+
+  const arr1 = explode(str1);
+  const arr2 = explode(str2);
+  const set = new Set([...arr1, ...arr2]);
+  let union = 0;
+  let intersection = 0;
+
+  set.forEach((item) => {
+    const has1 = arr1.filter((x) => x === item).length;
+    const has2 = arr2.filter((x) => x === item).length;
+    union += Math.max(has1, has2);
+    intersection += Math.min(has1, has2);
+  });
+  return union === 0 ? 65536 : Math.floor((intersection / union) * 65536);
+}
+```
+
+[피로도 - 완전 탐색](https://school.programmers.co.kr/learn/courses/30/lessons/87946)
+
+```js
+let solution = (k, d) =>
+  Math.max(
+    ...d.map(([m, v], i) =>
+      k < m ? 0 : solution(k - v, [...d.slice(0, i), ...d.slice(i + 1)]) + 1
+    ),
+    0
+  );
+```
+
+- 순열 활용
+
+: 순열을 만들어서 최대한 공량 가능한 모든 조합
+
+```js
+function getPermutations(arr) {
+  if (arr.length === 0) return [[]];
+  const first = arr[0];
+  const rest = arr.slice(1);
+  const subPermutations = getPermutations(rest);
+  const allPermutations = [];
+  for (const subPermutation of subPermutations) {
+    for (let i = 0; i <= subPermutation.length; i++) {
+      const copy = subPermutation.slice();
+      copy.splice(i, 0, first);
+      allPermutations.push(copy);
+    }
+  }
+  return allPermutations;
+}
+
+function solution(k, dungeons) {
+  const permutations = getPermutations(dungeons);
+  let answer = 0;
+
+  for (const permute of permutations) {
+    let hp = k; // 최대피로도
+    let count = 0; // 돌 수 있는 던전의 수
+
+    for (const pm of permute) {
+      // 던전을 1개씩 돌면서 피로도가 가능한지 확인
+
+      if (hp >= pm[0]) {
+        // hp가 최소피로도 pm[0]보다 크다면 진행시키고 던전을 돈 것이므로 count++
+        hp -= pm[1];
+        count += 1;
+      }
+
+      if (count > answer) {
+        // answer보다 크다면 가장 큰 값을 answer에 저장
+        answer = count;
+      }
+    }
+  }
+
+  return answer;
+}
+```
+
+```js
+function solution(k, dungeons) {
+  const answer = [];
+  function permute(nums) {
+    const result = [];
+
+    function backtrack(arr, current) {
+      // 순열 완성
+      if (current.length === arr.length) {
+        result.push(current.slice()); // 현재 순열을 결과 배열에 추가
+        return;
+      }
+
+      for (let i = 0; i < arr.length; i++) {
+        if (current.includes(arr[i])) {
+          continue; // 이미 선택된 숫자인 경우 건너뜀
+        }
+
+        current.push(arr[i]); // 숫자 선택
+        backtrack(nums, current); // 재귀 호출
+        current.pop(); // 선택한 숫자 제거 (백트래킹)
+      }
+    }
+
+    backtrack(nums, []);
+    return result;
+  }
+
+  // 모든 경우의수를 탐색하기 위해 순열을 생성하는 함수
+  const permutations = permute(dungeons);
+
+  // 모든 경우의 수 마다 던전을 몇개 돌 수 있나 계산해서 answer에 push
+  permutations.forEach((item) => {
+    // 순열 하나하나 처리할때마다 피로도 초기화
+    let p = k;
+
+    let pushItem = item.reduce((prev, curr) => {
+      if (curr[0] > p)
+        return prev; // 피로도가 최소필요피로도보다 작다면 던전을 돌 수 없음
+      else {
+        // 던전을 돌 수 있음
+        p -= curr[1]; // 피로도 빼주고
+        return (prev += 1); // 던전 한개 돌았다 표시
+      }
+    }, 0);
+
+    answer.push(pushItem); // 최종적으로 던전 돈 수 push
+  });
+
+  // 모든 경우의 수 중 가장 큰 수 (최대 많이 돌 수 있는 경우의 수)
+  return Math.max(...answer);
+}
+```
+
+- DFS(깊이 우선 탐색) 활용
+
+: 한 번에 탐색할 수 있는 DFS의 끝단까지 탐색을 완료한 후 다시 이전 단계로 돌아가는 작업을 해줘야 한다. 이 과정에서 이전 노드로 돌아갈 때, 방문 여부(check 배열)와 방문 횟수(cnt)를 이전 노드까지 탐색했을 때의 값으로 복구해줘야 한다.
+
+```js
+let answer = 0;
+
+function DFS(k, cnt, dungeons, check) {
+  answer = Math.max(answer, cnt);
+
+  for (let i = 0; i < dungeons.length; i++) {
+    if (check[i] === 0 && k >= dungeons[i][0]) {
+      check[i] = 1;
+      DFS(k - dungeons[i][1], cnt + 1, dungeons, check);
+      check[i] = 0;
+    }
+  }
+}
+
+function solution(k, dungeons) {
+  let check = new Array(dungeons.length).fill(0);
+  DFS(k, 0, dungeons, check);
+  return answer;
+}
+```
+
+```js
+function solution(k, d) {
+  const N = d.length;
+  const visited = new Array(N).fill(0);
+  let ans = 0;
+
+  function dfs(k, cnt) {
+    ans = Math.max(cnt, ans);
+
+    for (let j = 0; j < N; j++) {
+      if (k >= d[j][0] && !visited[j]) {
+        visited[j] = 1;
+        dfs(k - d[j][1], cnt + 1);
+        visited[j] = 0;
+      }
+    }
+  }
+
+  dfs(k, 0);
+  return ans;
+}
+```
+
+[타겟 넘버 - 깊이/너비 우선 탐색(DFS/BFS)](https://school.programmers.co.kr/learn/courses/30/lessons/43165)
+
+```js
+function solution(numbers, target) {
+  let answer = 0;
+  getAnswer(0, 0);
+  function getAnswer(x, value) {
+    if (x < numbers.length) {
+      getAnswer(x + 1, value + numbers[x]);
+      getAnswer(x + 1, value - numbers[x]);
+    } else {
+      if (value === target) {
+        answer++;
+      }
+    }
+  }
+  return answer;
+}
+```
+
+```js
+function solution(numbers, target) {
+  var answer = 0;
+  var answer = 0;
+
+  let root = new BinarySearchTree();
+  root.insert(0);
+  numbers.forEach(function (val) {
+    root.insert(val);
+  });
+
+  answer = root.DFSPreOrder(target);
+  return answer;
+}
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
+  insert(value) {
+    let newNode = new Node(value);
+    if (this.root === null) {
+      this.root = newNode;
+      return this;
+    } else {
+      let current = this.root;
+      function traverse(node) {
+        if (node.left) traverse(node.left);
+        if (node.right) traverse(node.right);
+        if (node.left === null) {
+          let leftNode = new Node(-value);
+          let rightNode = new Node(value);
+          node.left = leftNode;
+          node.right = rightNode;
+        }
+      }
+      traverse(current);
+      return this;
+    }
+  }
+  DFSPreOrder(target) {
+    let count = 0;
+    let data = 0;
+    let current = this.root;
+    function traverse(node) {
+      data = data + node.value;
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      if (node.left === null) {
+        if (data === target) {
+          count++;
+        }
+      }
+      data = data - node.value;
+    }
+    traverse(current);
+    return count;
+  }
+}
+```
+
+```js
+function solution(numbers, target) {
+  const n = 2 ** numbers.length;
+  let cnt = 0;
+  for (let i = 0; i < n; i++) {
+    let sum = 0;
+    for (let j = 1; j <= numbers.length; j++) {
+      const sign = i % (n / 2 ** (j - 1)) < n / 2 ** j ? +1 : -1;
+      sum += sign * numbers[j - 1];
+    }
+    if (target === sum) cnt++;
+  }
+
+  return cnt;
+}
+```
+
+```js
+function solution(numbers, target) {
+  // 값을 더하고 빼는 과정에서 음수가 나올수 있으므로
+  // 숫자의 최대 제한사항인  50 * 20 을 기준으로 dp테이블을 잡는다.
+  // dp[i][j] == numbers[i]까지 계산한 후 j를 만드는 방법의 수
+  const dp = Array.from({ length: numbers.length }, () => Array(2001).fill(0));
+
+  // 초기테이블 세팅
+  // ex) 만약 첫 요소가 2일 경우  -2을 만드는 가지수와 +2를 만드는 가지수를 dp테이블에 추가
+  // ex) dp[0][998] =1 , dp[0][1002] = 1
+
+  dp[0][1000 - numbers[0]] = 1;
+  dp[0][1000 + numbers[0]] = 1;
+  for (let i = 1; i < numbers.length; i++) {
+    for (let j = 0; j < 2001; j++) {
+      // 요소를 계산하기전 , 해당 수를 만드는 가지수가 있는 경우
+      // 가지수를 해당 수와 현재 요소를 계산한 경우에 더해준다.
+      if (dp[i - 1][j] > 0) {
+        dp[i][j - numbers[i]] += dp[i - 1][j];
+        dp[i][j + numbers[i]] += dp[i - 1][j];
+      }
+    }
+  }
+  // 모든 요소를 계산하고  타겟이 만들어진 갯수를 리턴한다.
+  return dp[numbers.length - 1][1000 + target];
+}
+```
+
+[전화번호 목록 - 해시](https://school.programmers.co.kr/learn/courses/30/lessons/42577)
+
+```js
+function solution(phoneBook) {
+  const table = {};
+
+  for (const number of phoneBook) {
+    table[number] = true;
+  }
+
+  for (const number of phoneBook) {
+    for (let i = 1; i < number.length; i += 1) {
+      const prefix = number.slice(0, i);
+      if (table[prefix]) return false;
+    }
+  }
+
+  return true;
+}
+```
+
+```js
+// 효율성 더 좋음
+function solution(phoneBook) {
+  return !phoneBook.sort().some((t, i) => {
+    if (i === phoneBook.length - 1) return false;
+
+    return phoneBook[i + 1].startsWith(phoneBook[i]);
+  });
+}
+```
