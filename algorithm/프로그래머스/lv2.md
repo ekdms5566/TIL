@@ -1512,3 +1512,156 @@ function solution(phoneBook) {
   });
 }
 ```
+
+[k진수에서 소수 개수 구하기](https://school.programmers.co.kr/learn/courses/30/lessons/92335)
+
+```js
+function solution(n, k) {
+  let answer = 0;
+  const strArr = n
+    .toString(k)
+    .split("0")
+    .filter((el) => el > 1);
+
+  strArr.forEach((num) => {
+    let isDivide = false;
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i === 0) {
+        isDivide = true;
+        break;
+      }
+    }
+
+    answer += isDivide ? 0 : 1;
+  });
+
+  return answer;
+}
+```
+
+```js
+function isPrime(num) {
+  if (!num || num === 1) return false;
+  for (let i = 2; i <= +Math.sqrt(num); i++) {
+    if (num % i === 0) return false;
+  }
+  return true;
+}
+
+function solution(n, k) {
+  const candidates = n.toString(k).split("0");
+  return candidates.filter((v) => isPrime(+v)).length;
+}
+
+console.log(solution(930909, 10));
+```
+
+```js
+function solution(n, k) {
+  let numbers = n
+    .toString(k)
+    .split("0")
+    .filter((a) => a > 1);
+
+  let answer = 0;
+  for (const number of numbers) {
+    answer++;
+    if (number > 3) {
+      for (let i = 2; i * i <= number; i++) {
+        if (number % i == 0) {
+          answer--;
+          break;
+        }
+      }
+    }
+  }
+  return answer;
+}
+```
+
+[압축](https://school.programmers.co.kr/learn/courses/30/lessons/17684)
+
+```js
+function solution(msg) {
+  const answer = [];
+
+  const dictionary = {};
+  let wordIdx = 1;
+  for (let i = 65; i < 65 + 26; i++) {
+    dictionary[String.fromCharCode(i)] = wordIdx++;
+  }
+
+  const msgs = msg.split("");
+  let msgsIdx = 0;
+  let msgString = "";
+
+  while (msgs.length !== msgsIdx) {
+    msgString = msgString.concat(msgs[msgsIdx]);
+
+    if (dictionary[msgString]) {
+      msgsIdx++;
+    } else {
+      answer.push(dictionary[msgString.slice(0, msgString.length - 1)]);
+      dictionary[msgString] = wordIdx++;
+      msgString = "";
+    }
+    if (msgs.length === msgsIdx) {
+      answer.push(dictionary[msgString]);
+    }
+  }
+  return answer;
+}
+```
+
+```js
+function solution(msg) {
+  const dict = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").reduce((dict, c, i) => {
+    dict[c] = i + 1;
+    return dict;
+  }, {});
+  dict.nextId = 27;
+  const ans = [];
+  for (let i = 0, j = 0; i < msg.length; i = j) {
+    j = msg.length;
+    let longest = "";
+    while (dict[(longest = msg.substring(i, j))] === undefined) --j;
+    ans.push(dict[longest]);
+    dict[longest + msg[j]] = dict.nextId++;
+  }
+
+  return ans;
+}
+```
+
+```js
+function solution(msg) {
+  let answer = [];
+  let wordMap = new Map();
+  let idx = 27;
+
+  for (let i = 1; i <= 26; i++) {
+    const code = i + 64;
+
+    wordMap[String.fromCharCode(code)] = i;
+  }
+
+  while (msg !== "") {
+    for (let i = msg.length; i >= 0; i--) {
+      const w = msg.slice(0, i);
+      const wc = msg.slice(0, i + 1);
+
+      if (wordMap[w]) {
+        answer.push(wordMap[w]);
+
+        msg = msg.slice(i, msg.length);
+
+        wordMap[wc] = idx;
+
+        idx++;
+        break;
+      }
+    }
+  }
+  return answer;
+}
+```
