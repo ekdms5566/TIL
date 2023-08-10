@@ -1694,3 +1694,244 @@ function solution(maps) {
     : maps[maps.length - 1][maps[0].length - 1];
 }
 ```
+
+[N진수 게임](https://school.programmers.co.kr/learn/courses/30/lessons/17687)
+
+```js
+function solution(n, t, m, p) {
+  let str = "";
+  let number = 0;
+
+  while (t * m > str.length) {
+    str = str.concat(number.toString(n));
+    number++;
+  }
+
+  return str
+    .slice(0, t * m)
+    .split("")
+    .filter((num, idx) => (idx - p + 1) % m === 0)
+    .join("")
+    .toUpperCase();
+}
+```
+
+```js
+function solution(n, t, m, p) {
+  var tubeT = Array.apply(null, Array(t)).map((a, i) => i * m + p - 1);
+  var line = "";
+  var max = m * t + p;
+  for (var i = 0; line.length <= max; i++) {
+    line += i.toString(n);
+  }
+  return tubeT
+    .map((a) => line[a])
+    .join("")
+    .toUpperCase();
+}
+```
+
+```js
+function solution(n, t, m, p) {
+  let res = "";
+  let num = 0;
+  let seq = "";
+  while (res.length < t) {
+    if (seq.length >= m) {
+      res += seq[p - 1];
+      seq = seq.slice(m);
+    } else {
+      seq += num.toString(n).toUpperCase();
+      num++;
+    }
+  }
+  return res;
+}
+```
+
+[더 맵게 - 힙(Heap)](https://school.programmers.co.kr/learn/courses/30/lessons/42626)
+
+```js
+class MinHeap {
+  constructor() {
+    this.heap = [];
+  }
+
+  size() {
+    return this.heap.length;
+  }
+
+  swap(idx1, idx2) {
+    [this.heap[idx1], this.heap[idx2]] = [this.heap[idx2], this.heap[idx1]];
+    return this.heap;
+  }
+
+  getParentIdx(childIdx) {
+    return Math.floor((childIdx - 1) / 2);
+  }
+
+  getLeftChildIdx(parentIdx) {
+    return parentIdx * 2 + 1;
+  }
+
+  getRightChildIdx(parentIdx) {
+    return parentIdx * 2 + 2;
+  }
+
+  heappop() {
+    const heapSize = this.size();
+    if (!heapSize) return null;
+    if (heapSize === 1) return this.heap.pop();
+
+    const value = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this.bubbledown();
+    return value;
+  }
+
+  heappush(value) {
+    this.heap.push(value);
+    this.bubbleup();
+
+    return this.heap;
+  }
+
+  bubbleup() {
+    let child = this.size() - 1;
+    let parent = this.getParentIdx(child);
+
+    while (this.heap[child] < this.heap[parent]) {
+      this.swap(child, parent);
+      child = parent;
+      parent = this.getParentIdx(parent);
+    }
+  }
+
+  bubbledown() {
+    let parent = 0;
+    let leftChild = this.getLeftChildIdx(parent);
+    let rightChild = this.getRightChildIdx(parent);
+
+    while (
+      (leftChild <= this.size() - 1 &&
+        this.heap[leftChild] < this.heap[parent]) ||
+      (rightChild <= this.size() - 1 &&
+        this.heap[rightChild] < this.heap[parent])
+    ) {
+      if (
+        rightChild <= this.size() - 1 &&
+        this.heap[leftChild] > this.heap[rightChild]
+      ) {
+        this.swap(parent, rightChild);
+        parent = rightChild;
+      } else {
+        this.swap(parent, leftChild);
+        parent = leftChild;
+      }
+      leftChild = this.getLeftChildIdx(parent);
+      rightChild = this.getRightChildIdx(parent);
+    }
+  }
+}
+
+function solution(scoville, K) {
+  let count = 0;
+  const heap = new MinHeap();
+  scoville.forEach((el) => heap.heappush(el));
+
+  while (heap.heap[0] < K && heap.size() > 1) {
+    count++;
+    heap.heappush(heap.heappop() + heap.heappop() * 2);
+  }
+  return heap.heap[0] >= K ? count : -1;
+}
+```
+
+```js
+class Heap {
+  constructor() {
+    this.items = [];
+  }
+
+  swap(index1, index2) {
+    [this.items[index1], this.items[index2]] = [
+      this.items[index2],
+      this.items[index1],
+    ];
+  }
+
+  insert(val) {
+    this.items.push(val);
+    let index = this.items.length - 1;
+    while (true) {
+      let parentIndex = Math.floor((index - 1) / 2);
+      //부모보다 자식이 작으면 자리 바꾸기
+      if (this.items[index] < this.items[parentIndex]) {
+        this.swap(index, parentIndex);
+      } else break;
+      index = parentIndex;
+      if (index < 1) break;
+    }
+  }
+
+  removeMin() {
+    this.items[0] = this.items[this.items.length - 1];
+    this.items.pop();
+    if (this.items.length <= 1) return;
+
+    let index = 0;
+    while (true) {
+      //두 자식중 작은값의 자식 인덱스 찾기
+      let lChildIndex = index * 2 + 1;
+      let rChildIndex = index * 2 + 2;
+      let minIndex = index;
+      if (
+        lChildIndex < this.items.length &&
+        this.items[minIndex] > this.items[lChildIndex]
+      ) {
+        minIndex = lChildIndex;
+      }
+      if (
+        rChildIndex < this.items.length &&
+        this.items[minIndex] > this.items[rChildIndex]
+      ) {
+        minIndex = rChildIndex;
+      }
+      //위치 바꾸기
+      if (minIndex !== index) {
+        this.swap(index, minIndex);
+        index = minIndex;
+      } else break;
+    }
+  }
+}
+
+function solution(scoville, K) {
+  let answer = 0;
+
+  //힙생성과 scoville 힙에 저장
+  let scovilleHeap = new Heap();
+  scoville.forEach((el) => {
+    scovilleHeap.insert(el);
+  });
+
+  //스코빌 지수 설정
+  while (true) {
+    if (scovilleHeap.items[0] >= K) break;
+    if (scovilleHeap.items.length <= 1) {
+      answer = -1;
+      break;
+    }
+
+    const low1 = scovilleHeap.items[0];
+    scovilleHeap.removeMin();
+    const low2 = scovilleHeap.items[0];
+    scovilleHeap.removeMin();
+    scovilleHeap.insert(low1 + low2 * 2);
+
+    answer++;
+  }
+
+  return answer;
+}
+```
