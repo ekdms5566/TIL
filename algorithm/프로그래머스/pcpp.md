@@ -150,3 +150,86 @@ function solution(command) {
   return [x, y];
 }
 ```
+
+[신입사원 교육](https://school.programmers.co.kr/learn/courses/15009/lessons/121688)
+
+```js
+function solution(ability, number) {
+  const heap = new MinHeap(ability);
+
+  for (let i = 0; i < number; i++) {
+    const a = heap.extractMin();
+    const b = heap.extractMin();
+    heap.insert(a + b);
+    heap.insert(a + b);
+  }
+
+  return heap.sum();
+}
+
+class MinHeap {
+  constructor(array) {
+    this.heap = [...array];
+    this.buildHeap();
+  }
+
+  buildHeap() {
+    const firstParentIdx = Math.floor((this.heap.length - 2) / 2);
+    for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+      this.siftDown(currentIdx, this.heap.length - 1);
+    }
+  }
+
+  siftDown(currentIdx, endIdx) {
+    let childOneIdx = currentIdx * 2 + 1;
+    while (childOneIdx <= endIdx) {
+      let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+      let idxToSwap;
+      if (
+        childTwoIdx !== -1 &&
+        this.heap[childTwoIdx] < this.heap[childOneIdx]
+      ) {
+        idxToSwap = childTwoIdx;
+      } else {
+        idxToSwap = childOneIdx;
+      }
+      if (this.heap[idxToSwap] < this.heap[currentIdx]) {
+        this.swap(currentIdx, idxToSwap);
+        currentIdx = idxToSwap;
+        childOneIdx = currentIdx * 2 + 1;
+      } else {
+        return;
+      }
+    }
+  }
+
+  siftUp(currentIdx) {
+    let parentIdx = Math.floor((currentIdx - 1) / 2);
+    while (currentIdx > 0 && this.heap[currentIdx] < this.heap[parentIdx]) {
+      this.swap(currentIdx, parentIdx);
+      currentIdx = parentIdx;
+      parentIdx = Math.floor((currentIdx - 1) / 2);
+    }
+  }
+
+  insert(value) {
+    this.heap.push(value);
+    this.siftUp(this.heap.length - 1);
+  }
+
+  extractMin() {
+    this.swap(0, this.heap.length - 1);
+    const min = this.heap.pop();
+    this.siftDown(0, this.heap.length - 1);
+    return min;
+  }
+
+  sum() {
+    return this.heap.reduce((acc, current) => acc + current, 0);
+  }
+
+  swap(i, j) {
+    [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+  }
+}
+```
