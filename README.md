@@ -23,8 +23,9 @@
 - [완전탐색 알고리즘](algorithm/%EC%99%84%EC%A0%84%ED%83%90%EC%83%89%20%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98.md#완전탐색)
 - [자카드 유사도](algorithm/%EC%9E%90%EC%B9%B4%EB%93%9C%20%EC%9C%A0%EC%82%AC%EB%8F%84.md#자카드-유사도)
 
-### 🥭 Redux
+### 🥭 React
 
+- [setState의 동작방식](React/setState%EC%9D%98%20%EB%8F%99%EC%9E%91%EB%B0%A9%EC%8B%9D.md#setstate의-동작방식)
 - [redux-persist 적용하여 새로고침 시에도 store 유지하기](Redux/redux-persist%20%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0.md#redux-persist-적용하여-새로고침-시에도-store-유지하기)
 
 ### ✨ Network
